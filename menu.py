@@ -53,16 +53,20 @@
 
 
 ##use new simple method to implement this function,it is perfect i think
-
-menu={'jiangsu':{'nanjin':{'a','b','c'},
-                 'yangzhou':{'d','e','f'},
-                 'suzhou':{'g','h','i'}},
-      'zhejiang':{'hangzhou':{'j','k','l'},
-                  'ningbo':{'m','n','o'},
-                  'jinhua':{'p','q','r'}},
-      'sichuan':{'chendu':{'s','t','u'},
-                 'wenchuan':{'v','w','x'},
-                 'mianyang':{'y','z','ab'}}}
+import json
+f=open('menu.txt','r')
+menu=json.loads(f.read())
+##print(type(menu))
+f.close()
+##menu={'jiangsu':{'nanjin':{'a':{},'b':{},'c':{}},
+##                 'yangzhou':{'d':{},'e':{},'f':{}},
+##                 'suzhou':{'g':{},'h':{},'i':{}}},
+##      'zhejiang':{'hangzhou':{'j':{},'k':{},'l':{}},
+##                  'ningbo':{'m':{},'n':{},'o':{}},
+##                  'jinhua':{'p':{},'q':{},'r':{}}},
+##      'sichuan':{'chendu':{'s':{},'t':{},'u':{}},
+##                 'wenchuan':{'v':{},'w':{},'x':{}},
+##                 'mianyang':{'y':{},'z':{},'ab':{}}}}
 
 current_layer=menu
 upper_layer=[]
@@ -72,20 +76,48 @@ while True:
     choice=input('pls type the name your choose:')
     
     if choice.strip() in current_layer:
-        try:
-            upper_layer.append(current_layer)
-            current_layer=current_layer[choice]
-        except TypeError:
-            upper_layer.pop()
-            print('this is last layer')
-                        
-    elif choice.strip()=='q':
+##        try:
+        upper_layer.append(current_layer)
+        current_layer=current_layer[choice]
+##---            
+        if current_layer=={}:
+            print('this is last layer,none')
+                
+##        except TypeError:
+##            upper_layer.pop()
+##            print('this is last layer')
+
+##---add new function 'add,revise,delete menu'---
+    elif choice.strip()=='add':
+        user_add=input('pls enter the name you want to add:')
+        current_layer[user_add]={}
+        
+    elif choice.strip()=='revise':
+        user_revise=input('pls enter name you want to revise:')
+        if user_revise in current_layer:
+            user_revise_after=input('pls enter the new name:')
+            current_layer[user_revise_after]=current_layer.pop(user_revise)
+        else:
+            print('the name is not exist')
+    
+    elif choice.strip()=='delete':
+        user_delete=input('pls enter name you want to delete:')
+        if user_delete in current_layer:
+            current_layer.pop(user_delete)
+        else:
+            print('the name is not exist')
+        
+    elif choice.strip()=='return':
         if upper_layer==[]:
             print('this is the uppest layer')
         else:
             current_layer = upper_layer.pop()
         
-    elif choice.strip()=='e':
+    elif choice.strip()=='quit':
+        if upper_layer!=[]:
+            f=open('menu.txt','w')
+            f.write(json.dumps(upper_layer[0]))
+            f.close()
         break
     else:
         print('incorrect name!')
