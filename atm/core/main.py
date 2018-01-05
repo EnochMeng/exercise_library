@@ -1,19 +1,6 @@
 ##main program
-
-def repay():
-    pass
-
-def withdraw():
-    pass
-
-def transfer():
-    pass
-
-
-
-def interactive():
-    pass
-
+from core import logger
+from core import auth
 
 user_data={
     'account_id':None,
@@ -24,6 +11,30 @@ user_data={
 transaction_logger=logger.logger('transaction')
 
 access_logger=logger.logger('access')
+
+def repay():
+    pass
+
+def withdraw():
+    pass
+
+def transfer():
+    pass
+
+def interactive(user_data):
+    func_dic={
+        '1': repay,
+        '2': withdraw,
+        '3': transfer
+        }
+    while True:
+        for i in func_dic:
+            print(i,'. ',func_dic['1'])
+        choice = input('pls choose:')
+        if choice in func_dic:
+            func_dic[choice](user_data)
+        else:
+            print('maloperation!')
 
 def run():
     acc_data=auth.acc_login(user_data,access_logger)
