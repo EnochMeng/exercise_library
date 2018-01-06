@@ -6,18 +6,18 @@ from conf import settings
 def auth(account,password):
     db_path=db_handle.db_handler(settings.DATABASE)
     print(db_path)
-    user_file=os.path.join(db_path,account)
+    user_file=r'%s.json'%os.path.join(db_path,account)
     print(user_file)
     if os.path.isfile(user_file):
         
-        with open(os.path.join(db_path,account)) as f:
+        with open(user_file) as f:
             account_data=json.load(f)
         if password==account_data['password']:
             
             if time.strftime('%Y-%m-%d',time.localtime()) < account_data['expire_time']:
                 print('welcome!')
-                user_data['is_authentiacted'] = True
-                return user_data['is_authentiacted'],account_data
+                
+                return True,account_data
             else:
                 print('your card is expired!')
         else:

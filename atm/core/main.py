@@ -1,4 +1,5 @@
 ##main program
+import collections
 from core import logger
 from core import auth
 
@@ -8,7 +9,7 @@ user_data={
     'account_data':None}
 
 
-transaction_logger=logger.logger('transaction')
+##transaction_logger=logger.logger('transaction')
 
 access_logger=logger.logger('access')
 
@@ -27,9 +28,12 @@ def interactive(user_data):
         '2': withdraw,
         '3': transfer
         }
+    func_dic_view=[('1','repay'),('2','withdraw'),('3','transfer')]
+    func_dic_view=collections.OrderedDict(func_dic_view)
+    
     while True:
-        for i in func_dic:
-            print(i,'. ',func_dic['1'])
+        for i in func_dic_view:
+            print(i,'. ',func_dic_view[i])
         choice = input('pls choose:')
         if choice in func_dic:
             func_dic[choice](user_data)

@@ -16,3 +16,5 @@ LOG_TYPE={
     'transaction':r'transaction.log',
     'access':r'access.log'}
 
+LOG_PATH=os.path.join(BASE_DIR,r'log')
+##print(LOG_PATH)

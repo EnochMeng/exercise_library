@@ -1,10 +1,6 @@
 ##loger
 
 import os,logging,sys
-
-dir_atm=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0,dir_atm)
-
 from conf import settings
 
 def logger(log_type):
@@ -24,7 +20,7 @@ def logger(log_type):
 
 ##    ch.setLevel(settings.LOG_LEVEL)
 
-    log_file=os.path.join(settings.BASE_DIR,r'\log')
+    log_file=os.path.join(settings.LOG_PATH,settings.LOG_TYPE[log_type])
     print(log_file)
     fh=logging.FileHandler(log_file)
 
