@@ -1,7 +1,7 @@
 import json
-f=open('mlc','w')
+f=open('mlc.json','w')
 data={
-    'account':'mlc',
+    'account_id':'mlc',
     'password':'123456',
     'enroll_time':'2018-01-06',
     'expire_time':'2020-01-06',

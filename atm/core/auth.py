@@ -3,11 +3,11 @@ import json,time,os
 from core import db_handle
 from conf import settings
 
-def auth(account,password):
+def auth(account,password,log_obj):
     db_path=db_handle.db_handler(settings.DATABASE)
-    print(db_path)
+##    print(db_path)
     user_file=r'%s.json'%os.path.join(db_path,account)
-    print(user_file)
+##    print(user_file)
     if os.path.isfile(user_file):
         
         with open(user_file) as f:
@@ -15,9 +15,10 @@ def auth(account,password):
         if password==account_data['password']:
             
             if time.strftime('%Y-%m-%d',time.localtime()) < account_data['expire_time']:
-                print('welcome!')
+
+                log_obj.info('%s login'%account_data['account_id'])
                 
-                return True,account_data
+                return account_data
             else:
                 print('your card is expired!')
         else:
@@ -25,12 +26,20 @@ def auth(account,password):
     else:
         print('the account is not exist!')
 
+
 def acc_login(user_data,log_obj):
     retry=0
     while user_data['is_authentiacted'] is not True and retry < 3:
         account=input('ACCOUNT:')
         password=input('PASSWORD:')
-        user_data['is_authentiacted'],acc_data = auth(account,password)
+        acc_data = auth(account,password,log_obj)
+        if acc_data:
+            user_data['is_authentiacted'] = True
+            user_data['account_id'] = account
+            return acc_data
         retry+=1
-    return acc_data
+        
+    else:
+        log_obj.error('logging many times!')
+        exit()
 
