@@ -23,16 +23,18 @@ def repay(user_data):
     print('balance:%s'%current_balance)
     flag = True
     while flag:
-        repay_amount = input('pls enter your amount:').strip()
+        repay_amount = input('pls enter your amount(q:return main menu):').strip()
         if repay_amount.isdigit() and len(repay_amount) > 0:
             new_balance = transaction.make_transaction(transaction_logger,account_data,'repay',repay_amount)
             if new_balance:
                 
                 print('success,balance: %f'%new_balance)
                 flag = False
-                
-            else:
-                print('error!')
+        elif repay_amount == 'q':
+            flag = False                  
+
+        else:
+            print('error!')    
     
 
 def withdraw():

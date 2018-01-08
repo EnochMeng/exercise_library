@@ -1,0 +1,14 @@
+﻿atm:
+---bin:
+------atm.py   程序入口文件，程序启动
+---conf：
+------settings.py   程序配置文件，设置程序log等级，路径等参数
+---core：   程序主要逻辑代码文件夹
+------acounnt.py
+------auth.py
+------db_handle.py
+------logger.py
+------main.py
+------transaction.py
+---data:   数据存放文件夹
+---log：   log日志存在文件夹
