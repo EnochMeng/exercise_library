@@ -37,8 +37,33 @@ def repay(user_data):
             print('error!')    
     
 
-def withdraw():
-    pass
+def withdraw(user_data):
+    
+    account_data = account.load_account_data(user_data)
+    
+    current_balance = account_data['balance']
+    print('balance:%s'%current_balance)
+    flag = True
+    while flag:
+        withdraw_amount = input('pls enter your amount(q:return main menu):').strip()
+        if withdraw_amount.isdigit() and len(withdraw_amount) > 0:
+            withdraw_amount = float(withdraw_amount)
+            current_balance = float(current_balance)
+            if withdraw_amount <= current_balance:
+                new_balance = transaction.make_transaction(transaction_logger,account_data,'withdraw',withdraw_amount)
+                if new_balance:
+                    
+                    print('success,balance: %f'%new_balance)
+                    flag = False
+            else:
+                print('your balance is not enough!')
+                flag = False
+                    
+        elif withdraw_amount == 'q':
+            flag = False                  
+
+        else:
+            print('error!')
 
 def transfer():
     pass
