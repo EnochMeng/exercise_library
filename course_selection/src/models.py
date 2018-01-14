@@ -3,8 +3,10 @@
 
 class School:
 
-    def __init__(self, school_name):
-        self.name = school_name
+    def __init__(self, name, site):
+        self.name = name
+        self.site = site
+
 
         ##用列表来保存老师，课程，班级
         self.school_teachers = []
@@ -18,8 +20,9 @@ class School:
         return teacher_obj
 
     ##创建课程函数
-    def create_course(self, name):
-        course_obj = Course(name)
+    def create_course(self, name, price, period):
+        course_obj = Course(name, price, period)
+
         self.school_courses.append(course_obj)
         return course_obj
 
@@ -45,13 +48,33 @@ class Teacher:
         self.salary = salary
 
 class Class:
-    def __init__(self,name):
+    def __init__(self, name, course):
         self.name = name
+        self.course = course
+        self.teacher = []
+        self.student = []
+
+    ##查看班级信息
+    def tell_class(self):
+        print('''
+        %s info
+        course name: %s
+        teacher name: %s
+        student amount: %s
+        '''%(self.name, self.course, self.teacher, self.student))
+
+    ##保存信息
+    def save(self):
+        pass
+
+
 
 
 class Course:
-    def __init__(self,name):
+    def __init__(self, name, price, period):
         self.name = name
+        self.price = price
+        self.period = period
 
 class Student:
     def __init__(self,name,age,gender):
