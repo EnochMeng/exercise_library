@@ -39,6 +39,26 @@ class School:
         
         return student_obj
 
+class People:
+    def __init__(self, name, user_id, age, sex):
+        self.user_id = user_id
+        self.name = name
+        self.age = age
+        self.sex = sex
+        self.courses = []
+        self.id = self.create_id()
+
+    def tell_crouse(self):
+        '''查看课程'''
+        for obj in self.courses:
+            obj.tell_crouse()
+
+    def create_id(self):
+        '''加密'''
+        m = hashlib.md5()
+        m.update(self.name.encode('utf-8'))
+        m.update(str(self.user_id).encode('utf-8'))
+        return m.hexdigest()
 
 class Teacher:
     def __init__(self,name,age,gender,salary):
@@ -77,10 +97,15 @@ class Course:
         self.period = period
 
 class Student:
-    def __init__(self,name,age,gender):
+    def __init__(self, name, age, gender, name_id):
         self.name = name
         self.age = age
         self.gender = gender
+        self.name_id = name_id
+
+    def save(self):
+        with open(r'%s\%s' % (settings.STUDENT_PATH, self.name_id), 'wb') as f:
+            pickle.dump(self, f)
 
 
 
