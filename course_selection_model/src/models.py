@@ -6,14 +6,6 @@ from conf import settings
 import pickle
 import hashlib
 
-
-def create_student(name, user_id, age, sex, classroom):
-    '''创建学生'''
-    student_obj = Student(name, user_id, age, sex)
-    classroom.student.append(student_obj)
-    return student_obj
-
-
 class School:
     """学校类"""
 
@@ -41,6 +33,12 @@ class School:
         teacher_obj = Teacher(name, user_id, age, sex, salary)
         self.school_terchers.append(teacher_obj)
         return teacher_obj
+
+    def create_student(self, name, user_id, age, sex, classroom):
+        '''创建学生'''
+        student_obj = Student(name, user_id, age, sex)
+        classroom.student.append(student_obj)
+        return student_obj
 
     def save(self):
         '''保存信息'''

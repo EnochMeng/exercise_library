@@ -16,7 +16,6 @@ linux = s1.create_course('Linux', 17800, '4mons')
 go = s2.create_course('Go', 9000, '4mons')
 school_obj = None
 
-
 def func():
     while True:
         print('欢迎进入老男孩选课系统'.center(30, '*'),
