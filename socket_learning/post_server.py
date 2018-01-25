@@ -1,5 +1,5 @@
 import socket
-import subprocess
+import os
 sk = socket.socket()
 # 创建一个socket对象sk
 
@@ -18,23 +18,27 @@ while True:
     # conn对象就是client端的socket对象，addr就是client端的ip和端口号
 
     while True:
-        try:
+        conntent_recv = conn.recv(1024)
+        # 在此阻塞，等待接受消息，1024是一次接受消息的大小
+        conntent_recv = str(conntent_recv, 'utf8')
+        cmd, filename, filesize = conntent_recv.split('|')
+        data_path = r"H:\mlc_python_practice\exercise_library\socket_learning\data"
+        path = os.path.join(data_path, filename)
+        f = open(path, 'ab')
+        # 在server端要放文件的地方，把这个文件创建出来
+        filesize = int(filesize)
+        data = 0
+        while data != filesize:
             conntent_recv = conn.recv(1024)
-            # 在此阻塞，等待接受消息，1024是一次接受消息的大小
-        except Exception as e:
-            print('client端异常关闭')
-            break
-        # 这里的捕获异常用来防止，当client端直接关闭程序时，server端会报错导致server端无法正常运行，这里捕获到异常然后跳出while，让server端可以正常重新连接其他client端
+            data += len(conntent_recv)
+            # 和那个client端一样，要注意，不能犯同样的错误
+            f.write(conntent_recv)
+            f.flush()
+            # f.flush是用来清空缓存
+        f.close()
+        # 这里就是一段一段的把文件接收过来
 
-        if not conntent_recv:
-            print('client端关闭连接')
-            break
-        # 这里是因为当client端sk.close()正常关闭连接时，server端会接收到一个None值，因此做判断。
-
-        print('---', str(conntent_recv, 'utf8'))
-
-        conntent_send = input('>>>')
-        conn.send(bytes(conntent_send, 'utf8'))
+        conn.send(bytes('success', 'utf8'))
         # send方法输出的内容必须是byte类型，因此这里做转化
 
 sk.close()

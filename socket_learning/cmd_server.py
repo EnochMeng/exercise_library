@@ -33,8 +33,22 @@ while True:
 
         print('---', str(conntent_recv, 'utf8'))
 
-        conntent_send = input('>>>')
-        conn.send(bytes(conntent_send, 'utf8'))
+        cmd = str(conntent_recv, 'utf8')
+        cmd_obj = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+        # 这里就是把命令执行的结果保存在cmd_obj这个对象中，一定要加上stdout这个参数，这个是将结果移动到你的主进程，不然接受不到结果
+        cmd_result = cmd_obj.stdout.read()
+        # 这里取出命令结果，cmd_reslut是一个通过gbk进行编码的bytes类型,因为我们在windows下执行的命令，默认使用gbk进行编码
+        cmd_len = len(cmd_result)
+        print(cmd_len)
+        # 计算出这个结果的长度，也就是他的字节数，因为这是个bytes类型
+
+        conn.send(bytes(str(cmd_len), 'utf8'))
+
+        conn.recv(1024)
+        # 这个加个接受是因为要解决 粘包 现象，粘包就是两个send在一块时，有可能会出现上面一个send把下面一个内容也一起发出去了，缓存区的问题，可以百度一下
+        # 其实就是让他中间停顿一下，就不会一起了
+
+        conn.send(cmd_result)
         # send方法输出的内容必须是byte类型，因此这里做转化
 
 sk.close()
